@@ -1,4 +1,7 @@
 package br.com.pubfuture.desafiopubfuture.repositories;
 
-public interface ContasRepository {
+import br.com.pubfuture.desafiopubfuture.models.Contas;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface ContasRepository  extends PagingAndSortingRepository<Contas, Integer> {
 }
