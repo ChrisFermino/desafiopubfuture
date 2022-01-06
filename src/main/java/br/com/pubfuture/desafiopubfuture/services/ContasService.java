@@ -2,7 +2,7 @@ package br.com.pubfuture.desafiopubfuture.services;
 
 import br.com.pubfuture.desafiopubfuture.core.exceptions.ObjectNotFound;
 import br.com.pubfuture.desafiopubfuture.core.exceptions.WrongParameter;
-import br.com.pubfuture.desafiopubfuture.models.Contas;
+import br.com.pubfuture.desafiopubfuture.models.entities.Contas;
 import br.com.pubfuture.desafiopubfuture.repositories.ContasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,12 +20,13 @@ public class ContasService {
     private ContasRepository contasRepository;
 
     public Contas save(Contas contas) {
+        // checar o tipo de conta!!
         return contasRepository.save(contas);
     }
 
     public Contas edit(Contas contas, int id) {
         if(contas.getId() != id) {
-            throw new WrongParameter("O campo id não pode ser alterado!");  // fazer o mesmo para instituição financeira
+            throw new WrongParameter("O campo id não pode ser alterado!");
         }
         findById(id);
         return contasRepository.save(contas);
@@ -48,11 +49,13 @@ public class ContasService {
         return contasOptional;
     }
 
+    public Double saldoTotal(){
+        return contasRepository.saldoTotal();
+    }
+
     private void validContasOptional(Optional<Contas> contasOptional) {
         if (contasOptional.isEmpty()) {
             throw new ObjectNotFound("Conta Inexistente!");
         }
     }
-
-
 }

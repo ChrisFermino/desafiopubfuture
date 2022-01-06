@@ -1,15 +1,18 @@
-package br.com.pubfuture.desafiopubfuture.models;
+package br.com.pubfuture.desafiopubfuture.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "receitas")
 @NoArgsConstructor
@@ -24,8 +27,8 @@ public class Receitas {
     private int id;
 
     @NotNull(message = "Campo valor vazio")
-    @NotBlank(message = "Campo valor em branco")
     @Column(name = "valor")
+    @Min(0)
     private double valor;
 
     @NotNull(message = "Campo dataRecebimento vazio")
@@ -40,12 +43,6 @@ public class Receitas {
     @NotBlank(message = "Campo descricao em branco")
     @Column(name = "descricao")
     private String descricao;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull(message = "Campo conta vazio")
-    @NotBlank(message = "Campo conta em branco")
-//    @Column(name = "conta")
-    private Contas conta;
 
     @NotNull(message = "Campo tipoReceita vazio")
     @NotBlank(message = "Campo tipoReceita em branco")
