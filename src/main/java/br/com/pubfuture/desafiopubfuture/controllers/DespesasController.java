@@ -1,9 +1,11 @@
 package br.com.pubfuture.desafiopubfuture.controllers;
 
 
+import br.com.pubfuture.desafiopubfuture.models.dto.DespesaTotalDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Despesas;
 import br.com.pubfuture.desafiopubfuture.services.DespesasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,18 +38,18 @@ public class DespesasController {
         return ResponseEntity.ok().body("Registro<Despesas> excluído!");
     }
 
-    @GetMapping(path = "/{dateFrom}/{dateTo}")
-    public ResponseEntity<Optional<Despesas>> findByDateBetween(@PathVariable Date dateFrom, @PathVariable Date dateTo) {
-        return ResponseEntity.ok().body(despesasService.findByDateBetween(dateFrom, dateTo));
+    @GetMapping(path = "/{dateFrom}/{dateTo}/{pageNumber}/{pageSize}")
+    public ResponseEntity<Page<Despesas>> findByDateBetween(@PathVariable String dateFrom, @PathVariable String dateTo, @PathVariable int pageNumber, @PathVariable int pageSize) {
+        return ResponseEntity.ok().body(despesasService.findByDateBetween(dateFrom, dateTo, pageNumber, pageSize));
     }
 
-    @GetMapping(path = "/{tipoDespesa}")
-    public ResponseEntity<Optional<Despesas>> findByTipo(@PathVariable String tipoDespesa) {
-        return ResponseEntity.ok().body(despesasService.findByTipo(tipoDespesa));
+    @GetMapping(path = "/{tipoDespesa}/{pageNumber}/{pageSize}")
+    public ResponseEntity<Page<Despesas>> findByTipo(@PathVariable String tipoDespesa, @PathVariable int pageNumber, @PathVariable int pageSize) {
+        return ResponseEntity.ok().body(despesasService.findByTipo(tipoDespesa, pageNumber, pageSize));
     }
 
     @GetMapping(path = "/despesaTotal")
-    public ResponseEntity<Double> getDespesaTotal() {
+    public ResponseEntity<DespesaTotalDto> getDespesaTotal() {
         return ResponseEntity.ok().body(despesasService.despesaTotal());
     }
 }

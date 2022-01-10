@@ -49,5 +49,6 @@ public class Receitas {
     @Column(name = "tipoReceita")
     private String tipoReceita;
 
-
+    @Column(name = "idConta")
+    private int idConta;
 }

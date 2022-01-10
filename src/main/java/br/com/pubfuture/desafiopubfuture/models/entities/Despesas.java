@@ -31,7 +31,7 @@ public class Despesas {
     @Min(0)
     private double valor;
 
-    @NotNull(message = "Campo dataRecebimentoEsperado vazio")
+    @NotNull(message = "Campo dataPagamento vazio")
     @Column(name = "dataPagamento")
     private Date dataPagamento;
 
@@ -43,5 +43,8 @@ public class Despesas {
     @NotBlank(message = "Campo tipoDespesa em branco")
     @Column(name = "tipoDespesa")
     private String tipoDespesa;
+
+    @Column(name = "idConta")
+    private int idConta;
 
 }

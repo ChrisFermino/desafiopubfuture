@@ -1,5 +1,6 @@
 package br.com.pubfuture.desafiopubfuture.controllers;
 
+import br.com.pubfuture.desafiopubfuture.models.dto.ContasDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Contas;
 import br.com.pubfuture.desafiopubfuture.services.ContasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,9 @@ public class ContasController {
     private ContasService contasService;
 
     @PostMapping
-    public ResponseEntity<Contas> saveContas(@Valid @RequestBody Contas contas){
-        return ResponseEntity.ok().body(contasService.save(contas));
+    public ResponseEntity<ContasDto> saveContas(@Valid @RequestBody Contas contasDto){
+        ContasDto contasDto1 = new ContasDto(contasService.save(contasDto));
+        return ResponseEntity.ok().body(contasDto1);
     }
 
     @PutMapping(value = "/{id}")

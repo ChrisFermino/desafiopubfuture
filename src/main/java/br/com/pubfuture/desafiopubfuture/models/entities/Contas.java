@@ -1,5 +1,6 @@
 package br.com.pubfuture.desafiopubfuture.models.entities;
 
+import br.com.pubfuture.desafiopubfuture.models.dto.ContasDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -40,11 +41,15 @@ public class Contas {
     @Column(name = "instituicaofinanceira")
     private String instituicaoFinanceira;
 
-    @OneToMany
-    @JoinColumn(name = "despesas_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "idConta")
     private List<Despesas> despesas;
 
-    @OneToMany
-    @JoinColumn(name = "receitas_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "idConta")
     private List<Receitas> receitas;
+
+    public Contas(ContasDto contasDto) {
+        this.saldo = contasDto.getSaldo();
+        this.tipoConta = contasDto.getTipoConta();
+        this.instituicaoFinanceira = contasDto.getInstituicaoFinanceira();
+    }
 }

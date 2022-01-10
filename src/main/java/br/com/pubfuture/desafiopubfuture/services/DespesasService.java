@@ -2,12 +2,18 @@ package br.com.pubfuture.desafiopubfuture.services;
 
 import br.com.pubfuture.desafiopubfuture.core.exceptions.ObjectNotFound;
 import br.com.pubfuture.desafiopubfuture.core.exceptions.WrongParameter;
+import br.com.pubfuture.desafiopubfuture.models.dto.DespesaTotalDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Despesas;
 import br.com.pubfuture.desafiopubfuture.repositories.DespesasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -58,8 +64,9 @@ public class DespesasService {
         }
     }
 
-    public Optional<Despesas> findByTipo(String tipoDespesa) {
-        //fazer paginacao
+    public Page<Despesas> findByTipo(String tipoDespesa, int pageNumber, int pageSize) {
+        if (pageSize > 10) pageSize = 10;
+        Pageable page = PageRequest.of(pageNumber, pageSize);
         switch (tipoDespesa) {
             case "alimentacao":
             case "educacao":
@@ -69,20 +76,33 @@ public class DespesasService {
             case "saude":
             case "transporte":
             case "outros":
-                if (despesasRepository.findByTipoDespesa(tipoDespesa).isEmpty()) {
+                if (despesasRepository.findByTipoDespesa(page, tipoDespesa).isEmpty()) {
                     throw new ObjectNotFound("Não existem despesas desse tipo");
                 }
-                return despesasRepository.findByTipoDespesa(tipoDespesa);
+                return despesasRepository.findByTipoDespesa(page, tipoDespesa);
         }
         throw  new ObjectNotFound("tipo de Despesa Inexistente!");
     }
 
-    //não está funcionando //fazer paginacao
-    public Optional<Despesas> findByDateBetween (Date dateFrom, Date dateTo) {
-        return despesasRepository.findByDataPagamentoBetween(dateFrom, dateTo);
+    //não está funcionando
+    public Page<Despesas> findByDateBetween (String From, String To, int pageNumber, int pageSize) {
+        if (pageSize > 10) pageSize = 10;
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateFrom = null;
+        Date dateTo = null;
+        try {
+            dateFrom = format.parse(From);
+            dateTo = format.parse(To);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return despesasRepository.findByDataPagamentoBetween(dateFrom, dateTo, page);
     }
 
-    public Double despesaTotal() {
+    public DespesaTotalDto despesaTotal() {
         return despesasRepository.DespesaTotal();
     }
 }

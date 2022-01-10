@@ -2,12 +2,18 @@ package br.com.pubfuture.desafiopubfuture.services;
 
 import br.com.pubfuture.desafiopubfuture.core.exceptions.ObjectNotFound;
 import br.com.pubfuture.desafiopubfuture.core.exceptions.WrongParameter;
+import br.com.pubfuture.desafiopubfuture.models.dto.ReceitaTotalDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Receitas;
 import br.com.pubfuture.desafiopubfuture.repositories.ReceitasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -19,9 +25,9 @@ public class ReceitasService {
 
     public Receitas save(Receitas receitas) {
         switch (receitas.getTipoReceita()) {
-            case "salário":
+            case "salario":
             case "outros":
-            case "prêmio":
+            case "premio":
             case "presente":
                 return receitasRepository.save(receitas);
         }
@@ -29,12 +35,18 @@ public class ReceitasService {
     }
 
     public Receitas edit(Receitas receitas, int id) {
-        //arrumar o tipo de despesa
         if(receitas.getId() != id) {
             throw new WrongParameter("O campo id não pode ser alterado!");
         }
         findById(id);
-        return receitasRepository.save(receitas);
+        switch (receitas.getTipoReceita()) {
+            case "salario":
+            case "outros":
+            case "premio":
+            case "presente":
+                return receitasRepository.save(receitas);
+        }
+        throw new WrongParameter("o campo tipoReceita está incorreto");
     }
 
     public void deleteById(@PathVariable int id) {
@@ -54,27 +66,41 @@ public class ReceitasService {
         }
     }
 
-    public Optional<Receitas> findByTipo(String tipoReceita) {
-        //fazer paginacao
+    public Page<Receitas> findByTipo(String tipoReceita, int pageNumber, int pageSize) {
+        if (pageSize > 10) pageSize = 10;
+        Pageable page = PageRequest.of(pageNumber, pageSize);
         switch (tipoReceita) {
-            case "salário":
+            case "salario":
             case "outros":
-            case "prêmio":
+            case "premio":
             case "presente":
-                if(receitasRepository.findByTipoReceita(tipoReceita).isEmpty()) {
+                if(receitasRepository.findByTipoReceita(page, tipoReceita).isEmpty()) {
                     throw new ObjectNotFound("Não existem receitas com esse tipo!");
                 }
-                return receitasRepository.findByTipoReceita(tipoReceita);
+                return receitasRepository.findByTipoReceita(page, tipoReceita);
         }
         throw new ObjectNotFound("Tipo de Receita Inexistente!");
     }
 
-    //não está funcionando //fazer paginacao
-    public Optional<Receitas> findByDateBetween(Date dateFrom, Date dateTo) {
-        return receitasRepository.findByDataRecebimentoBetween(dateFrom, dateTo);
+    //não está funcionando
+    public Page<Receitas> findByDateBetween(String from, String to, int pageNumber, int pageSize) {
+        if (pageSize > 10) pageSize = 10;
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateFrom = null;
+        Date dateTo = null;
+        try {
+            dateFrom = format.parse(from);
+            dateTo = format.parse(to);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return receitasRepository.findByDataRecebimentoBetween(page, dateFrom, dateTo);
     }
 
-    public Double receitaTotal(){
+    public ReceitaTotalDto receitaTotal(){
         return receitasRepository.ReceitaTotal();
     }
 }
