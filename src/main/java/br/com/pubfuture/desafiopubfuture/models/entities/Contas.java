@@ -1,16 +1,13 @@
 package br.com.pubfuture.desafiopubfuture.models.entities;
 
 import br.com.pubfuture.desafiopubfuture.models.dto.ContasDto;
+import br.com.pubfuture.desafiopubfuture.utils.enums.TipoContaEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -29,12 +26,11 @@ public class Contas {
 
     @NotNull(message = "Campo saldo vazio")
     @Column(name = "saldo")
-    private double saldo;
+    private Double saldo;
 
     @NotNull(message = "Campo tipoConta vazio")
-    @NotBlank(message = "Campo tipoConta em branco")
     @Column(name = "tipoconta")
-    private String tipoConta;
+    private TipoContaEnum tipoConta;
 
     @NotNull(message = "Campo instituicaoFinanceira vazio")
     @NotBlank(message = "Campo instituicaoFinanceira em branco")

@@ -3,6 +3,7 @@ package br.com.pubfuture.desafiopubfuture.controllers;
 import br.com.pubfuture.desafiopubfuture.models.dto.ReceitaTotalDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Receitas;
 import br.com.pubfuture.desafiopubfuture.services.ReceitasService;
+import br.com.pubfuture.desafiopubfuture.utils.enums.TipoReceitaEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.Optional;
+
 
 @RestController
 @Validated
@@ -43,7 +43,7 @@ public class ReceitasController {
     }
 
     @GetMapping(path = "/{tipoReceita}/{pageNumber}/{pageSize}")
-    public ResponseEntity<Page<Receitas>> findByTipo(@PathVariable String tipoReceita, @PathVariable int pageNumber, @PathVariable int pageSize) {
+    public ResponseEntity<Page<Receitas>> findByTipo(@PathVariable TipoReceitaEnum tipoReceita, @PathVariable int pageNumber, @PathVariable int pageSize) {
         return ResponseEntity.ok().body(receitasService.findByTipo(tipoReceita, pageNumber, pageSize));
     }
 

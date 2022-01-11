@@ -1,5 +1,6 @@
 package br.com.pubfuture.desafiopubfuture.models.entities;
 
+import br.com.pubfuture.desafiopubfuture.utils.enums.TipoReceitaEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,9 +46,8 @@ public class Receitas {
     private String descricao;
 
     @NotNull(message = "Campo tipoReceita vazio")
-    @NotBlank(message = "Campo tipoReceita em branco")
     @Column(name = "tipoReceita")
-    private String tipoReceita;
+    private TipoReceitaEnum tipoReceita;
 
     @Column(name = "idConta")
     private int idConta;

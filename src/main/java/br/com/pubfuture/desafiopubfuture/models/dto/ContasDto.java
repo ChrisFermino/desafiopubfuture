@@ -1,6 +1,7 @@
 package br.com.pubfuture.desafiopubfuture.models.dto;
 
 import br.com.pubfuture.desafiopubfuture.models.entities.Contas;
+import br.com.pubfuture.desafiopubfuture.utils.enums.TipoContaEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.Setter;
 public class ContasDto {
 
     private double saldo;
-    private String tipoConta;
+    private TipoContaEnum tipoConta;
     private String instituicaoFinanceira;
 
     public ContasDto(Contas contas) {

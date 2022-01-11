@@ -2,7 +2,6 @@ package br.com.pubfuture.desafiopubfuture.services;
 
 import br.com.pubfuture.desafiopubfuture.core.exceptions.ObjectNotFound;
 import br.com.pubfuture.desafiopubfuture.core.exceptions.WrongParameter;
-import br.com.pubfuture.desafiopubfuture.models.dto.ContasDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Contas;
 import br.com.pubfuture.desafiopubfuture.repositories.ContasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ public class ContasService {
     private ContasRepository contasRepository;
 
     public Contas save(Contas contas) {
-        // checar o tipo de conta!!
         return contasRepository.save(contas);
     }
 
@@ -33,10 +31,25 @@ public class ContasService {
         return contasRepository.save(contas);
     }
 
+    public void transferSaldo(int idreceptor, int idremetente, Double valor) {
+        findById(idreceptor);
+        findById(idremetente);
+        Double receptor = contasRepository.getSaldo(idreceptor);
+        Double remetente = contasRepository.getSaldo(idremetente);
+        receptor += valor;
+        remetente -= valor;
+        contasRepository.editsaldo(idreceptor, receptor);
+        contasRepository.editsaldo(idremetente, remetente);
+    }
+
     public Page<Contas> getContasPerPage(int pageNumber, int pageSize) {
         if (pageSize > 5) pageSize = 5;
         Pageable page = PageRequest.of(pageNumber, pageSize);
         return contasRepository.findAll(page);
+    }
+
+    public Double saldoTotal(){
+        return contasRepository.saldoTotal();
     }
 
     public void deleteById(@PathVariable int id) {
@@ -48,10 +61,6 @@ public class ContasService {
         Optional<Contas> contasOptional = contasRepository.findById(id);
         validContasOptional(contasOptional);
         return contasOptional;
-    }
-
-    public Double saldoTotal(){
-        return contasRepository.saldoTotal();
     }
 
     private void validContasOptional(Optional<Contas> contasOptional) {

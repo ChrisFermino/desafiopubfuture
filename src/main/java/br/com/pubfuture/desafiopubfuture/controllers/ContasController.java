@@ -20,14 +20,21 @@ public class ContasController {
     private ContasService contasService;
 
     @PostMapping
-    public ResponseEntity<ContasDto> saveContas(@Valid @RequestBody Contas contasDto){
-        ContasDto contasDto1 = new ContasDto(contasService.save(contasDto));
-        return ResponseEntity.ok().body(contasDto1);
+    public ResponseEntity<Contas> saveContas(@Valid @RequestBody ContasDto contasDto){
+        Contas contas = new Contas(contasDto);
+        return ResponseEntity.ok().body(contasService.save(contas));
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Contas> editContas(@PathVariable int id, @RequestBody Contas contas) {
-        return ResponseEntity.ok().body(contasService.edit(contas, id));
+    public ResponseEntity<ContasDto> editContas(@PathVariable int id, @RequestBody Contas contas) {
+        ContasDto contasDto = new ContasDto(contasService.edit(contas, id));
+        return ResponseEntity.ok().body(contasDto);
+    }
+
+    @PutMapping(value = "/{idReceptor}/{idRemetente}/{valor}")
+    public ResponseEntity<String> transferSaldo(@PathVariable int idReceptor, @PathVariable int idRemetente, @PathVariable double valor) {
+        contasService.transferSaldo(idReceptor, idRemetente, valor);
+        return ResponseEntity.ok().body("Transferência Completa!");
     }
 
     @GetMapping(path = "/page/{pageNumber}/{pageSize}")

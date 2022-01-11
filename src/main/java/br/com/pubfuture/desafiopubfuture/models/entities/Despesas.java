@@ -1,5 +1,6 @@
 package br.com.pubfuture.desafiopubfuture.models.entities;
 
+import br.com.pubfuture.desafiopubfuture.utils.enums.TipoDespesaEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -40,9 +40,8 @@ public class Despesas {
     private Date dataPagamentoEsperado;
 
     @NotNull(message = "Campo tipoDespesa vazio")
-    @NotBlank(message = "Campo tipoDespesa em branco")
     @Column(name = "tipoDespesa")
-    private String tipoDespesa;
+    private TipoDespesaEnum tipoDespesa;
 
     @Column(name = "idConta")
     private int idConta;

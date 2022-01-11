@@ -5,8 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DespesaTotalDto {
+public class SaldoTotalContaDto {
 
     private double valor;
+
 
 }

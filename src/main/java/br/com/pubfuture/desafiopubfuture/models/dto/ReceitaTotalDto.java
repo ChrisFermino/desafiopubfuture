@@ -1,15 +1,12 @@
 package br.com.pubfuture.desafiopubfuture.models.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
+@AllArgsConstructor
 public class ReceitaTotalDto {
 
     private double valor;
 
-    public ReceitaTotalDto(double valor) {
-        this.valor = valor;
-    }
 }

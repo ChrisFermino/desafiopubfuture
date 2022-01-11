@@ -6,8 +6,8 @@ public class ObjectNotFound extends RuntimeException{
         super(message);
     }
 
-//    public ObjectNotFound(String message, Throwable cause) {
-//        super(message, cause);
-//    }
+    public ObjectNotFound(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }
