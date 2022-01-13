@@ -1,6 +1,7 @@
 package br.com.pubfuture.desafiopubfuture.models.entities;
 
 import br.com.pubfuture.desafiopubfuture.models.dto.ContasDto;
+import br.com.pubfuture.desafiopubfuture.models.dto.ContasEditDto;
 import br.com.pubfuture.desafiopubfuture.utils.enums.TipoContaEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -47,5 +48,12 @@ public class Contas {
         this.saldo = contasDto.getSaldo();
         this.tipoConta = contasDto.getTipoConta();
         this.instituicaoFinanceira = contasDto.getInstituicaoFinanceira();
+    }
+
+    public Contas(ContasEditDto contasEditDto) {
+        this.id = contasEditDto.getId();
+        this.saldo = contasEditDto.getSaldo();
+        this.tipoConta = contasEditDto.getTipoConta();
+        this.instituicaoFinanceira = contasEditDto.getInstituicaoFinanceira();
     }
 }

@@ -2,6 +2,8 @@ package br.com.pubfuture.desafiopubfuture.services;
 
 import br.com.pubfuture.desafiopubfuture.core.exceptions.ObjectNotFound;
 import br.com.pubfuture.desafiopubfuture.core.exceptions.WrongParameter;
+import br.com.pubfuture.desafiopubfuture.models.dto.DespesaTotalDto;
+import br.com.pubfuture.desafiopubfuture.models.dto.SaldoTotalContaDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Contas;
 import br.com.pubfuture.desafiopubfuture.repositories.ContasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +50,8 @@ public class ContasService {
         return contasRepository.findAll(page);
     }
 
-    public Double saldoTotal(){
-        return contasRepository.saldoTotal();
+    public SaldoTotalContaDto saldoTotal(){
+        return new SaldoTotalContaDto(contasRepository.saldoTotal());
     }
 
     public void deleteById(@PathVariable int id) {

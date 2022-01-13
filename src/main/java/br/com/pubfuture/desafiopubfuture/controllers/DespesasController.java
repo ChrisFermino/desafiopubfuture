@@ -31,12 +31,6 @@ public class DespesasController {
         return ResponseEntity.ok().body(despesasService.edit(despesas, id));
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteDespesas(@PathVariable int id) {
-        despesasService.deleteById(id);
-        return ResponseEntity.ok().body("Registro<Despesas> excluído!");
-    }
-
     @GetMapping(path = "/{dateFrom}/{dateTo}/{pageNumber}/{pageSize}")
     public ResponseEntity<Page<Despesas>> findByDateBetween(@PathVariable String dateFrom, @PathVariable String dateTo, @PathVariable int pageNumber, @PathVariable int pageSize) {
         return ResponseEntity.ok().body(despesasService.findByDateBetween(dateFrom, dateTo, pageNumber, pageSize));
@@ -50,5 +44,11 @@ public class DespesasController {
     @GetMapping(path = "/despesaTotal")
     public ResponseEntity<DespesaTotalDto> getDespesaTotal() {
         return ResponseEntity.ok().body(despesasService.despesaTotal());
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<String> deleteDespesas(@PathVariable int id) {
+        despesasService.deleteById(id);
+        return ResponseEntity.ok().body("Registro<Despesas> excluído!");
     }
 }

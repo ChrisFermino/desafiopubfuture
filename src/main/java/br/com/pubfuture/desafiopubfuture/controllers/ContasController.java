@@ -1,6 +1,8 @@
 package br.com.pubfuture.desafiopubfuture.controllers;
 
 import br.com.pubfuture.desafiopubfuture.models.dto.ContasDto;
+import br.com.pubfuture.desafiopubfuture.models.dto.ContasEditDto;
+import br.com.pubfuture.desafiopubfuture.models.dto.SaldoTotalContaDto;
 import br.com.pubfuture.desafiopubfuture.models.entities.Contas;
 import br.com.pubfuture.desafiopubfuture.services.ContasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,9 @@ public class ContasController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ContasDto> editContas(@PathVariable int id, @RequestBody Contas contas) {
-        ContasDto contasDto = new ContasDto(contasService.edit(contas, id));
-        return ResponseEntity.ok().body(contasDto);
+    public ResponseEntity<Contas> editContas(@PathVariable int id, @RequestBody ContasEditDto contasEditDto) {
+        Contas contas = new Contas(contasEditDto);
+        return ResponseEntity.ok().body(contasService.edit(contas, id));
     }
 
     @PutMapping(value = "/{idReceptor}/{idRemetente}/{valor}")
@@ -42,14 +44,14 @@ public class ContasController {
         return ResponseEntity.ok().body(contasService.getContasPerPage(pageNumber, pageSize));
     }
 
+    @GetMapping(path = "/saldoTotal")
+    public ResponseEntity<SaldoTotalContaDto> saldoTotal() {
+        return ResponseEntity.ok().body(contasService.saldoTotal());
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteContas(@PathVariable int id) {
         contasService.deleteById(id);
         return ResponseEntity.ok().body("Registro<Contas> excluído!");
-    }
-
-    @GetMapping(path = "/saldoTotal")
-    public ResponseEntity<String> saldoTotal() {
-        return ResponseEntity.ok().body("Saldo Total: " + contasService.saldoTotal());
     }
 }

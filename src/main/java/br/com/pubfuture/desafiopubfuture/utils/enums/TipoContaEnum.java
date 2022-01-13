@@ -7,7 +7,7 @@ public enum TipoContaEnum {
 
     CORRENTE,
     POUPANCA,
-    SALARIO
+    CARTEIRA
 
 
 }
