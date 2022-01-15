@@ -47,7 +47,7 @@ public class ReceitasController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deletePerson(@PathVariable int id) {
+    public ResponseEntity<String> deleteReceitas(@PathVariable int id) {
         receitasService.deleteById(id);
         return ResponseEntity.ok().body("Registro<Receitas> excluído!");
     }
