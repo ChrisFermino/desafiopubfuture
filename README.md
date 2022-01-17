@@ -6,7 +6,7 @@ Necessita de [Maven](https://maven.apache.org/install.html) instalado para usar 
 
 Necessita de [Java 11](https://jdk.java.net/archive/) nas variavéis de ambiente do sistema.
 
-localize a pasta do projeto pelo cmd e execute o comando `mvn spring-boot:run`
+localize a pasta do projeto pelo cmd e execute o comando `mvn clean install` em seguida execute `mvn spring-boot:run`
 
 ### Banco de dados
 
